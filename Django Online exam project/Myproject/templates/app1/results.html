@@ -1,0 +1,198 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exam Results</title>
+    <style>
+        <style>
+            /* General Styles */
+            body {
+                font-family: 'Arial', sans-serif;
+                background-color: #f9f9f9;
+                margin: 0;
+                padding: 0;
+            }
+        
+            /* Container */
+            .container {
+                max-width: 800px;
+                margin: 50px auto;
+                padding: 20px;
+                background-color: #ffffff;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+                border-radius: 8px;
+            }
+        
+            /* Header Styles */
+            .head {
+                color: #dc3545;
+                text-align: center;
+                font-size: 2rem;
+                margin: 0;
+                padding: 20px 0;
+                border-bottom: 3px solid #28a745;
+            }
+        
+            .result {
+                color: #28a745;
+                font-size: 1.5rem;
+                text-align: center;
+                margin: 10px 0;
+            }
+        
+            /* Feedback Styles */
+            .feedback {
+                text-align: center;
+                font-size: 1.2rem;
+                margin: 20px 0;
+            }
+        
+            .feedback-Need-Improvement {
+                color: #dc3545;
+            }
+        
+            .feedback-Good {
+                color: #ffc107;
+            }
+        
+            .feedback-Excellent {
+                color: #28a745;
+            }
+        
+            /* Summary Styles */
+            .summary {
+                text-align: center;
+                padding: 15px;
+                background-color: #f8f9fa;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+                margin: 20px 0;
+            }
+        
+            h4 {
+                color: #6c757d;
+                font-weight: normal;
+                margin: 10px 0;
+                font-size: 1rem;
+            }
+        
+            /* Table Styles */
+            .results-table {
+                width: 100%;
+                border-collapse: collapse;
+                margin: 20px 0;
+                font-size: 0.9rem;
+                text-align: left;
+            }
+        
+            .results-table thead {
+                background-color: #28a745;
+                color: #ffffff;
+            }
+        
+            .results-table th, .results-table td {
+                padding: 10px 15px;
+                border: 1px solid #ddd;
+            }
+        
+            .results-table tr:nth-child(even) {
+                background-color: #f8f9fa;
+            }
+        
+            .results-table tr:hover {
+                background-color: #e9ecef;
+            }
+        
+            .correct {
+                color: #28a745;
+                font-weight: bold;
+            }
+        
+            .status {
+                font-weight: bold;
+            }
+        
+            /* Buttons */
+            input[type="submit"] {
+                display: block;
+                width: 200px;
+                margin: 20px auto;
+                padding: 10px;
+                font-size: 1rem;
+                color: #ffffff;
+                background-color: #28a745;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                text-align: center;
+                text-decoration: none;
+                transition: background-color 0.3s ease;
+            }
+        
+            input[type="submit"]:hover {
+                background-color: #218838;
+            }
+        
+            /* Responsive Design */
+            @media (max-width: 768px) {
+                .container {
+                    padding: 15px;
+                }
+        
+                h1, h2, h4 {
+                    font-size: 1.2rem;
+                }
+        
+                input[type="submit"] {
+                    width: 100%;
+                }
+        
+                .results-table th, .results-table td {
+                    font-size: 0.8rem;
+                    padding: 8px;
+                }
+            }
+        </style>
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="head">Exam over !!</h1>
+        <h1 class="result">Results</h1>
+        <div class="summary">
+            <h2 class="{% if feedback == 'Needs Improvement' %}feedback-Need Improvement{% elif feedback == 'Good' %}feedback-Good{% elif feedback == 'Excellent' %}feedback-Excellent{% endif %}">
+                {{ feedback }}
+            </h2>
+            <h4>{{ username }}'s Score: {{ percentage }}%   Correct Answers: {{ score }} out of {{ total_question }}</h4>
+        </div>
+    
+        <h2> Result Data </h2>
+        <table class="results-table">
+            <thead>
+                <tr>
+                    <th>Question No</th>
+                    <th>Question</th>
+                    <th>Correct Answer</th>
+                    <th>Your Answer</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in correct_wrong %}
+                <tr>
+                    <td>{{ i.qno }}</td>
+                    <td>{{ i.qtext }}</td>
+                    <td class="correct">{{ i.answer }}</td>
+                    <td>{{ i.wrong_ans }}</td>
+                    <td class="status">{{ i.status }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

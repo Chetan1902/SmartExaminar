@@ -1,0 +1,55 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exam Results</title>
+    <style>
+        /* Add your existing styles here */
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="head">Exam over !!</h1>
+        <h1 class="result">Results</h1>
+        <div class="summary">
+            <h2 class="{% if feedback == 'Needs Improvement' %}feedback-Need Improvement{% elif feedback == 'Good' %}feedback-Good{% elif feedback == 'Excellent' %}feedback-Excellent{% endif %}">
+                {{ feedback }}
+            </h2>
+            <h4>{{ username }}'s Score: {{ percentage }}%   Correct Answers: {{ score }} out of {{ total_question }}</h4>
+        </div>
+
+        <form method="get" action="/examapp/view_answers/">
+            <input type="submit" value="View Answers">
+        </form>
+
+        {% if show_answers %}
+        <!-- Show answers section -->
+        <h2> Result Data </h2>
+        <table class="results-table">
+            <thead>
+                <tr>
+                    <th>Question No</th>
+                    <th>Question</th>
+                    <th>Correct Answer</th>
+                    <th>Your Answer</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in correct_wrong %}
+                <tr>
+                    <td>{{ i.qno }}</td>
+                    <td>{{ i.qtext }}</td>
+                    <td class="correct">{{ i.answer }}</td>
+                    <td>{{ i.wrong_ans }}</td>
+                    <td class="status">{{ i.status }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
+    </div>
+</body>
+</html>
